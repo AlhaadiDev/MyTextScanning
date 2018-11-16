@@ -75,7 +75,7 @@ This project do scanning
 
 3.  Create MainActivity.java to create all the function.
 
-3.1 Call **initiateCameraScan()** function in OnCreate() method.
+   3.1 Call **initiateCameraScan()** function in OnCreate() method.
 
     public void initiateCameraScan() {
         //Create the TextRecognizer
@@ -156,7 +156,7 @@ This project do scanning
         }
     }
 
-3.2 Create a Stop button to stop the scanning process.
+  3.2 Create a Stop button to stop the scanning process.
 
         mGetText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +165,7 @@ This project do scanning
             }
         });
 
-3.3 Create a Start button to Start the scanning process.
+  3.3 Create a Start button to Start the scanning process.
 
       mScanText.setOnClickListener(new View.OnClickListener() {
             @Override
