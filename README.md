@@ -178,4 +178,4 @@ This project do scanning
 
 **Make sure you check the app/src/main/java/com/example/user/mytextscanning/MainActivity.java to get the complete code and all the variables**
 
-<img src="app/src/main/java/res/drawable/mainPage"/>
+<img src="app/src/main/java/res/drawable/mainPage.png"/>
