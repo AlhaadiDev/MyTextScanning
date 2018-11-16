@@ -1,83 +1,83 @@
-# MyTextScanning
-This project do scanning 
+package com.example.user.mytextscanning;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.util.SparseArray;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
-1. Add this library to Gradle file
+import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.text.TextBlock;
+import com.google.android.gms.vision.text.TextRecognizer;
 
-    implementation 'com.google.android.gms:play-services-vision:17.0.2'
+import java.io.IOException;
 
-2.  Create activity_main.xml layout (just copy and paste the code)
+public class MainActivity extends AppCompatActivity {
 
+    CameraSource mCameraSource;
+    SurfaceView mCameraView;
+    TextView mTextView;
+    Button mGetText, mScanText;
+    private static final int requestPermissionID = 101;
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.user.mytextscanning.MainActivity">
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-    <SurfaceView
-        android:id="@+id/surfaceView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        mCameraView = findViewById(R.id.surfaceView);
+        mTextView = findViewById(R.id.text_view);
+        mGetText = findViewById(R.id.btnGetText);
+        mScanText = findViewById(R.id.btnStartScan);
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="-20dp"
-        android:layout_marginRight="10dp">
+        initiateCameraScan();
 
-        <Button
-            android:id="@+id/btnStartScan"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#DCDCDC"
-            android:gravity="center"
-            android:text="StartScan()"
-            android:textColor="#000000"
-            android:textSize="14sp" />
+        mScanText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //to recreate the file
+                recreate();
+            }
+        });
 
-        <Button
-            android:id="@+id/btnGetText"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#000000"
-            android:gravity="center"
-            android:text="getText()"
-            android:textColor="#ffffff"
-            android:textSize="14sp" />
+        mGetText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCameraSource.stop();
+            }
+        });
+    }
 
-    </LinearLayout>
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode != requestPermissionID) {
+            Log.d("d", "Got Unexpected permission result: " + requestCode);
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            return;
+        }
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        android:scrollbars="none">
+        if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            try {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_DENIED) {
+                    return;
+                }
+                mCameraSource.start(mCameraView.getHolder());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-        <TextView
-            android:id="@+id/text_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="left|center"
-            android:hint="Description"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </ScrollView>
-
-</LinearLayout>
-
-3.  Create MainActivity.java to create all the function.
-
-3.1 Call **initiateCameraScan()** function in OnCreate() method.
-
-  public void initiateCameraScan() {
+    public void initiateCameraScan() {
         //Create the TextRecognizer
         final TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
         if (!textRecognizer.isOperational()) {
@@ -155,27 +155,4 @@ This project do scanning
             });
         }
     }
-
-3.2 Create a Stop button to stop the scanning process.
-
-        mGetText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCameraSource.stop();
-            }
-        });
-
-3.3 Create a Start button to Start the scanning process.
-
-      mScanText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //to recreate the file
-                recreate();
-            }
-        });
-
-
-**Make sure you check the app/src/main/java/com/example/user/mytextscanning/MainActivity.java to get the complete code and all the variables**
-
-<img src="app/src/main/java/res/drawable/mainPage"/>
+}
