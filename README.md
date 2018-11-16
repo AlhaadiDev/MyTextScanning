@@ -4,25 +4,25 @@ This project do scanning
 
 1. Add this library to Gradle file
 
-    implementation 'com.google.android.gms:play-services-vision:17.0.2'
+         implementation 'com.google.android.gms:play-services-vision:17.0.2'
 
 2.  Create activity_main.xml layout (just copy and paste the code)
 
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.user.mytextscanning.MainActivity">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+         xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+         tools:context="com.example.user.mytextscanning.MainActivity">
 
-    <SurfaceView
+          <SurfaceView
         android:id="@+id/surfaceView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <LinearLayout
+         <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginLeft="10dp"
@@ -51,9 +51,9 @@ This project do scanning
             android:textColor="#ffffff"
             android:textSize="14sp" />
 
-    </LinearLayout>
+         </LinearLayout>
 
-    <ScrollView
+         <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="10dp"
@@ -69,15 +69,15 @@ This project do scanning
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
-    </ScrollView>
+           </ScrollView>
 
-</LinearLayout>
+        </LinearLayout>
 
 3.  Create MainActivity.java to create all the function.
 
 3.1 Call **initiateCameraScan()** function in OnCreate() method.
 
-  public void initiateCameraScan() {
+    public void initiateCameraScan() {
         //Create the TextRecognizer
         final TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
         if (!textRecognizer.isOperational()) {
@@ -100,7 +100,7 @@ This project do scanning
                 @Override
                 public void surfaceCreated(SurfaceHolder holder) {
                     try {
-                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) !=              PackageManager.PERMISSION_GRANTED) {
                             ActivityCompat.requestPermissions(MainActivity.this,
                                     new String[]{Manifest.permission.CAMERA},
                                     requestPermissionID);
